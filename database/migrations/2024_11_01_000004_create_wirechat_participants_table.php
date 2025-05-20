@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Namu\WireChat\Facades\WireChat;
 use Namu\WireChat\Models\Conversation;
@@ -19,7 +20,7 @@ return new class extends Migration
             
             // Foreign key for conversation
             if ($usesUuid) {
-                $table->uuid('id')->primary();
+               $table->uuid('id')->primary()->default(DB::raw('gen_random_uuid()'));
                 $table->uuid('conversation_id');
                 $table->uuid('participantable_id');
             } else {
