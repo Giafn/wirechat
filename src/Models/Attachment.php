@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Facades\Storage;
 use Namu\WireChat\Facades\WireChat;
+use Namu\WireChat\Models\Concerns\HasDynamicIds;
 
 /**
  * @property int $id
@@ -42,6 +43,7 @@ use Namu\WireChat\Facades\WireChat;
 class Attachment extends Model
 {
     use HasFactory;
+    use HasDynamicIds;
 
     protected $fillable = ['attachable_id', 'attachable_type', 'file_path', 'file_name', 'mime_type', 'url', 'original_name'];
 

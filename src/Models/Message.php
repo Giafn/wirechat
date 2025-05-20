@@ -16,6 +16,7 @@ use Namu\WireChat\Enums\Actions;
 use Namu\WireChat\Enums\MessageType;
 use Namu\WireChat\Facades\WireChat;
 use Namu\WireChat\Helpers\Helper;
+use Namu\WireChat\Models\Concerns\HasDynamicIds;
 use Namu\WireChat\Models\Scopes\WithoutRemovedMessages;
 use Namu\WireChat\Traits\Actionable;
 
@@ -65,6 +66,7 @@ class Message extends Model
     use Actionable;
     use HasFactory;
     use SoftDeletes;
+    use HasDynamicIds;
 
     public $timestamps = true;
 

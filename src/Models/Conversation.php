@@ -256,7 +256,9 @@ class Conversation extends Model
 
     public function lastMessage(): hasOne
     {
-        return $this->hasOne(Message::class, 'conversation_id')->latestOfMany('created_at');
+        $messageTable = (new Message())->getTable();
+        return $this->hasOne(Message::class)
+        ->whereRaw('created_at = (select max(created_at) from '.$messageTable.' wm where wm.conversation_id = '.$messageTable.'.conversation_id)');
     }
 
     /**
