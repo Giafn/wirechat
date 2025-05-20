@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Namu\WireChat\Enums\Actions;
 use Namu\WireChat\Enums\ParticipantRole;
 use Namu\WireChat\Facades\WireChat;
+use Namu\WireChat\Models\Concerns\HasDynamicIds;
 use Namu\WireChat\Models\Scopes\WithoutRemovedActionScope;
 use Namu\WireChat\Traits\Actionable;
 
@@ -64,6 +65,7 @@ class Participant extends Model
 {
     use Actionable;
     use HasFactory;
+    use HasDynamicIds;
 
     protected $fillable = [
         'conversation_id',
