@@ -20,14 +20,15 @@ return new class extends Migration
                 $table->uuid('id')->primary();
                 $table->uuid('conversation_id');
                 $table->uuid('reply_id')->nullable();
+                $table->uuid('sendable_id');
             } else {
                 $table->id();
                 $table->unsignedBigInteger('conversation_id');
                 $table->unsignedBigInteger('reply_id')->nullable();
+                $table->unsignedBigInteger('sendable_id');
             }
             $table->foreign('conversation_id')->references('id')->on((new Conversation)->getTable())->cascadeOnDelete();
 
-            $table->unsignedBigInteger('sendable_id');
             $table->string('sendable_type');
 
             $table->text('body')->nullable();
