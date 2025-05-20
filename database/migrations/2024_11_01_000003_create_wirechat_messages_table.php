@@ -16,20 +16,19 @@ return new class extends Migration
     {
         $usesUuid = WireChat::usesUuid();
         Schema::create((new Message)->getTable(), function (Blueprint $table) use ($usesUuid) {
-            $table->id();
-
             if ($usesUuid) {
+                $table->uuid('id')->primary();
                 $table->uuid('conversation_id');
+                $table->uuid('reply_id')->nullable();
             } else {
+                $table->id();
                 $table->unsignedBigInteger('conversation_id');
+                $table->unsignedBigInteger('reply_id')->nullable();
             }
             $table->foreign('conversation_id')->references('id')->on((new Conversation)->getTable())->cascadeOnDelete();
 
             $table->unsignedBigInteger('sendable_id');
             $table->string('sendable_type');
-
-            $table->unsignedBigInteger('reply_id')->nullable();
-            $table->foreign('reply_id')->references('id')->on((new Message)->getTable())->nullOnDelete();
 
             $table->text('body')->nullable();
             $table->string('type')->default('text');
@@ -42,6 +41,13 @@ return new class extends Migration
             // Indexes for optimization
             $table->index(['conversation_id']);
             $table->index(['sendable_id', 'sendable_type']);
+        });
+
+        Schema::table('wire_messages', function (Blueprint $table) {
+            $table->foreign('reply_id')
+                ->references('id')
+                ->on('wire_messages')
+                ->nullOnDelete();
         });
     }
 

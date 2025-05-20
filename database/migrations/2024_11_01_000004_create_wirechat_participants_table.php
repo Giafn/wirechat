@@ -16,18 +16,20 @@ return new class extends Migration
     {
         $usesUuid = WireChat::usesUuid();
         Schema::create((new Participant)->getTable(), function (Blueprint $table) use ($usesUuid) {
-            $table->id();
-
+            
             // Foreign key for conversation
             if ($usesUuid) {
+                $table->uuid('id')->primary();
                 $table->uuid('conversation_id');
+                $table->uuid('participantable_id');
             } else {
+                $table->id();
                 $table->unsignedBigInteger('conversation_id');
+                $table->unsignedBigInteger('participantable_id');
             }
             $table->foreign('conversation_id')->references('id')->on((new Conversation)->getTable())->cascadeOnDelete();
 
             $table->string('role');
-            $table->unsignedBigInteger('participantable_id');
             $table->string('participantable_type');
 
             // Timestamps for tracking participant activity
